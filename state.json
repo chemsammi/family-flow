@@ -1,0 +1,71 @@
+{
+  "mode": "flow",
+  "lastUpdated": "",
+  "rewardPhrases": [
+    "You took care of what you needed",
+    "You kept going",
+    "You're getting ready beautifully"
+  ],
+  "children": {
+    "remy": {
+      "title": "🌸 Remy 🌸",
+      "currentIndex": 0,
+      "steps": [
+        {
+          "icon": "👚",
+          "text": "Get dressed"
+        },
+        {
+          "icon": "🍳",
+          "text": "Breakfast"
+        },
+        {
+          "icon": "✏️",
+          "text": "Homework"
+        },
+        {
+          "icon": "👩🏻‍🦱",
+          "text": "Hair"
+        },
+        {
+          "icon": "👟",
+          "text": "Shoes"
+        },
+        {
+          "icon": "🎒",
+          "text": "Backpack"
+        }
+      ]
+    },
+    "bryony": {
+      "title": "🩷 Bryony 🩷",
+      "currentIndex": 0,
+      "steps": [
+        {
+          "icon": "👚",
+          "text": "Get dressed"
+        },
+        {
+          "icon": "🍳",
+          "text": "Breakfast"
+        },
+        {
+          "icon": "✏️",
+          "text": "Homework"
+        },
+        {
+          "icon": "👧🏻",
+          "text": "Hair"
+        },
+        {
+          "icon": "👟",
+          "text": "Shoes"
+        },
+        {
+          "icon": "🎒",
+          "text": "Backpack"
+        }
+      ]
+    }
+  }
+}

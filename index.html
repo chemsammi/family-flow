@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Family Flow</title>
+<style>
+  :root{
+    --bg: #f8f5f7;
+    --panel: #fffdfd;
+    --border: #eadfe5;
+    --text: #4c4650;
+    --muted: #9a8f98;
+    --remy-accent: #d8f0ea;
+    --bryony-accent: #fde2ef;
+    --button-text: #4b4450;
+    --complete-bg: #f7faf8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #faf7f9 0%, #f6fbfb 100%);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px 0;
+    color: #847884;
+    font-size: 0.95rem;
+  }
+
+  .status {
+    padding: 4px 10px;
+    border: 1px solid #eadfe5;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.7);
+  }
+
+  .container {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    min-height: calc(100vh - 44px);
+    padding: 14px;
+  }
+
+  .panel {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    padding: 18px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    box-shadow: 0 6px 18px rgba(188, 169, 181, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 10px;
+    opacity: 0.8;
+  }
+
+  .panel.remy::before {
+    background: linear-gradient(90deg, #f9d7e8, #d8f0ea, #e5dcff);
+  }
+
+  .panel.bryony::before {
+    background: linear-gradient(90deg, #fde2ef, #d9f5f1, #ffe9c9);
+  }
+
+  .name {
+    text-align: center;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 1.45rem;
+    letter-spacing: 0.02em;
+    color: #6b5f69;
+    margin-top: 8px;
+    margin-bottom: 14px;
+    flex: 0 0 auto;
+  }
+
+  .done {
+    min-height: 102px;
+    padding: 8px 4px 6px;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.45;
+    flex: 0 0 auto;
+  }
+
+  .done-item {
+    display: block;
+    padding: 2px 0;
+    opacity: 0.72;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .done-item:hover {
+    opacity: 0.95;
+  }
+
+  .middle {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    min-height: 280px;
+  }
+
+  .task {
+    width: min(66%, 260px);
+    min-height: 190px;
+    border-radius: 28px;
+    border: 1px solid #e9e1e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px;
+    font-size: 1.9rem;
+    line-height: 1.25;
+    color: var(--button-text);
+    cursor: pointer;
+    user-select: none;
+    transition: transform 120ms ease, box-shadow 120ms ease, opacity 200ms ease, background 200ms ease;
+    box-shadow: 0 8px 16px rgba(203, 188, 197, 0.10);
+  }
+
+  .task:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(203, 188, 197, 0.13);
+  }
+
+  .task.remy {
+    background: linear-gradient(180deg, #fef7fb 0%, var(--remy-accent) 100%);
+  }
+
+  .task.bryony {
+    background: linear-gradient(180deg, #fff9fc 0%, var(--bryony-accent) 100%);
+  }
+
+  .task.complete {
+    width: min(66%, 260px);
+    min-height: 190px;
+    cursor: default;
+    box-shadow: none;
+    border-color: #edf1ee;
+    background: linear-gradient(180deg, #fcfffd 0%, var(--complete-bg) 100%);
+    opacity: 0.88;
+  }
+
+  .task.complete:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .task-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .task-icon {
+    font-size: 2.2rem;
+  }
+
+  .reward {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reward-main {
+    font-size: 1.55rem;
+  }
+
+  .reward-sub {
+    font-size: 1rem;
+    color: #7b6f78;
+  }
+
+  .next {
+    text-align: center;
+    color: #8f8690;
+    font-size: 1rem;
+    min-height: 50px;
+    line-height: 1.35;
+    flex: 0 0 auto;
+    margin-bottom: 2px;
+  }
+
+  .next-label {
+    display: block;
+    font-size: 0.88rem;
+    opacity: 0.9;
+    margin-bottom: 4px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .error {
+    max-width: 720px;
+    margin: 32px auto;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: #fff6f7;
+    border: 1px solid #eed9de;
+    color: #735b63;
+  }
+
+  @media (max-width: 760px) {
+    .container {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .panel {
+      min-height: 48vh;
+    }
+
+    .task, .task.complete {
+      width: min(72%, 240px);
+      min-height: 168px;
+      font-size: 1.7rem;
+    }
+
+    .done {
+      min-height: 84px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="status" id="modeBadge">Loading…</div>
+    <div id="lastUpdated"></div>
+  </div>
+
+  <div id="errorBox" class="error hidden"></div>
+  <div class="container" id="app"></div>
+
+<script>
+const STATE_URL = "./state.json";
+const REWARD_DURATION_MS = 1100;
+
+let state = null;
+let rewardView = {};
+let saveInProgress = false;
+
+function setStatus() {
+  const modeBadge = document.getElementById("modeBadge");
+  const lastUpdated = document.getElementById("lastUpdated");
+  if (!state) {
+    modeBadge.textContent = "Loading…";
+    lastUpdated.textContent = "";
+    return;
+  }
+  modeBadge.textContent = state.mode === "flow" ? "Flow mode" : "Calm mode";
+  lastUpdated.textContent = state.lastUpdated ? `Updated ${new Date(state.lastUpdated).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})}` : "";
+}
+
+function showError(message) {
+  const box = document.getElementById("errorBox");
+  box.textContent = message;
+  box.classList.remove("hidden");
+}
+
+function hideError() {
+  document.getElementById("errorBox").classList.add("hidden");
+}
+
+async function loadState() {
+  const response = await fetch(STATE_URL + "?t=" + Date.now(), { cache: "no-store" });
+  if (!response.ok) throw new Error("Could not load state.json");
+  state = await response.json();
+  setStatus();
+  render();
+}
+
+async function saveState() {
+  // For static hosting, the webpage itself cannot write to state.json.
+  // So taps are saved only in-memory right now.
+  // The parent controller / Shortcuts will be the real writer later.
+  state.lastUpdated = new Date().toISOString();
+  setStatus();
+  render();
+}
+
+function doneItems(child) {
+  return child.steps.slice(0, child.currentIndex);
+}
+
+function currentStep(child) {
+  return child.steps[child.currentIndex] || null;
+}
+
+function nextStep(child) {
+  return child.steps[child.currentIndex + 1] || null;
+}
+
+function renderTask(childKey, child) {
+  const current = currentStep(child);
+  const next = nextStep(child);
+
+  if (rewardView[childKey]) {
+    return `
+      <div class="task ${childKey}">
+        <div class="reward">
+          <div class="reward-main">✅ Nice job</div>
+          <div class="reward-sub">⭐ ${rewardView[childKey]}</div>
+        </div>
+      </div>
+      <div class="next"></div>
+    `;
+  }
+
+  if (!current) {
+    return `
+      <div class="task complete">
+        <div class="task-text">
+          <div class="task-icon">✅</div>
+          <div>All done</div>
+          <div style="font-size:1.1rem;color:#7e747d;">🎒 Ready to go</div>
+        </div>
+      </div>
+      <div class="next"></div>
+    `;
+  }
+
+  return `
+    <div class="task ${childKey}" onclick="advance('${childKey}')">
+      <div class="task-text">
+        <div class="task-icon">${current.icon}</div>
+        <div>${current.text}</div>
+      </div>
+    </div>
+    <div class="next">
+      ${next ? `<span class="next-label">Next</span>${next.icon} ${next.text}` : ``}
+    </div>
+  `;
+}
+
+function render() {
+  const app = document.getElementById("app");
+  if (!state || !state.children) return;
+
+  app.innerHTML = Object.entries(state.children).map(([childKey, child]) => `
+    <div class="panel ${childKey}">
+      <div class="name">${child.title}</div>
+      <div class="done">
+        ${doneItems(child).map((step, i) => `
+          <div class="done-item" onclick="rewindTo('${childKey}', ${i})">✓ ${step.icon} ${step.text}</div>
+        `).join("")}
+      </div>
+      <div class="middle">
+        ${renderTask(childKey, child)}
+      </div>
+    </div>
+  `).join("");
+}
+
+function rewardPhrase(child) {
+  const phrases = state.rewardPhrases || [
+    "You took care of what you needed",
+    "You kept going",
+    "You're getting ready beautifully"
+  ];
+  return phrases[child.currentIndex % phrases.length];
+}
+
+window.advance = async function(childKey) {
+  if (!state || saveInProgress) return;
+  const child = state.children[childKey];
+  if (!child) return;
+  if (child.currentIndex >= child.steps.length) return;
+
+  rewardView[childKey] = rewardPhrase(child);
+  child.currentIndex += 1;
+  render();
+
+  setTimeout(async () => {
+    delete rewardView[childKey];
+    await saveState();
+  }, REWARD_DURATION_MS);
+}
+
+window.rewindTo = async function(childKey, stepIndex) {
+  if (!state || saveInProgress) return;
+  const ok = window.confirm("Go back to this step?");
+  if (!ok) return;
+  const child = state.children[childKey];
+  if (!child) return;
+  child.currentIndex = stepIndex;
+  delete rewardView[childKey];
+  await saveState();
+}
+
+loadState().catch(err => {
+  showError("This page needs state.json next to it. Once hosted together, it should load normally.");
+  console.error(err);
+});
+</script>
+</body>
+</html>
